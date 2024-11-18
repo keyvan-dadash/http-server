@@ -31,7 +31,6 @@ type Worker struct {
 func (w *Worker) RunForever() {
 	for conn := range w.internalCh {
 		clientHandler(conn)
-		conn.Close()
 	}
 }
 
@@ -112,6 +111,7 @@ func main() {
 }
 
 func clientHandler(conn net.Conn) {
+	defer conn.Close()
 	// Parse http request
 	req, err := http.ReadRequest(bufio.NewReader(conn))
 	if err != nil && !errors.Is(err, io.EOF) {
