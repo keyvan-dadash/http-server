@@ -73,6 +73,12 @@ docker compose -f docker-compose.yaml up --build -d
 
 ### Example Deployment
 
-Here is a screenshot of the applications running on an AWS EC2 instance with 1 core and 1 GB of RAM:
+The deployment environment was an AWS EC2 t2.micro instance.
 
+Both the HTTP server and proxy server were run, and several successful and unsuccessful scenarios were tested:
 
+![HTTP Server and Proxy Image](assets/http-server-proxy-run.png)
+
+Results from the AWS instance:
+
+![AWS Instance Result](assets/aws-instance-run.png)
