@@ -1,0 +1,23 @@
+# Stage 1: Builder
+FROM golang:1.23 as builder
+
+WORKDIR /app
+
+COPY go.mod ./
+
+RUN go mod download
+
+COPY cmd/proxy/* .
+
+RUN go build -o proxy .
+
+# Stage 2: Running the Binary
+FROM ubuntu:latest
+
+WORKDIR /app
+
+COPY --from=builder /app/proxy .
+
+RUN chmod +x proxy
+
+ENTRYPOINT ["./proxy"]

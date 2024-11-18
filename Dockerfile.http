@@ -1,0 +1,23 @@
+# Stage 1: Builder
+FROM golang:1.23 as builder
+
+WORKDIR /app
+
+COPY go.mod ./
+
+RUN go mod download
+
+COPY cmd/http_server/* .
+
+RUN go build -o http_server .
+
+# Stage 2: Running the Binary
+FROM ubuntu:latest
+
+WORKDIR /app
+
+COPY --from=builder /app/http_server .
+
+RUN chmod +x http_server
+
+ENTRYPOINT ["./http_server"]
